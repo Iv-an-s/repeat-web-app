@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Score</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${students}">
+            <td th:text = "${s.id}"></td>
+            <td th:text = "${s.name}"></td>
+            <td>
+                <a th:href="@{'/students/decrement_score/' + ${s.id}}" class="btn btn-warning">-</a>
+                <span th:text = "${s.score}"></span>
+                <a th:href="@{'/students/increment_score/' + ${s.id}}" class="btn btn-warning">+</a>
+            </td>
+            <td>
+                <a th:href="@{'/students/show/' + ${s.id}}" class="btn btn-primary">Информация о студенте</a>
+            </td>
+            <td>
+                <a th:href="@{'/students/delete/' + ${s.id}}" class="btn btn-primary">Отчислить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <span th:text = "${'Всего студентов: ' + students.size()}"></span>
+    <p></p>
+    <a th:href="@{'/students/create'}" class="btn btn-primary">Добавить студента</a>
+    <p></p>
+    <a th:href="@{'/students'}" class="btn btn-primary">На главную страницу</a>
+</div>
+</body>
+</html>
