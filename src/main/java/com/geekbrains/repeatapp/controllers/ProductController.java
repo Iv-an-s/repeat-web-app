@@ -2,10 +2,7 @@ package com.geekbrains.repeatapp.controllers;
 
 import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.servises.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +15,16 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll(){
-        return productService.findAll();
+    public List<Product> findAll(@RequestParam (defaultValue = "0") int minPrice, @RequestParam (defaultValue = "0") int maxPrice){
+        if(minPrice == 0 && maxPrice == 0) {
+            return productService.findAll();
+        }
+        return productService.findAllByPrice(minPrice, maxPrice);
     }
 
     @GetMapping("/products/{id}")
     public Product findById(@PathVariable Long id){
         return productService.findById(id).get();
     }
+
 }

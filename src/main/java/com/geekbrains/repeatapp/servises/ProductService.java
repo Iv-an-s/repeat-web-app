@@ -23,4 +23,8 @@ public class ProductService {
     public Optional<Product> findById(Long id){
         return productRepository.findById(id);
     }
+
+    public List<Product> findAllByPrice(int minPrice, int maxPrice){
+        return productRepository.findAllByPrice(minPrice, maxPrice);
+    }
 }
