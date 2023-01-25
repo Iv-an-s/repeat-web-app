@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.price >= :minPrice and p.price <= :maxPrice")
     public List<Product> findAllByPrice(int minPrice, int maxPrice);
+
+    List<Product>findAllByPriceLessThanEqual(int maxPrice);
 }

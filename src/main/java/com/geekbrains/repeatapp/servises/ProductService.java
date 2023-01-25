@@ -27,4 +27,8 @@ public class ProductService {
     public List<Product> findAllByPrice(int minPrice, int maxPrice){
         return productRepository.findAllByPrice(minPrice, maxPrice);
     }
+
+    public List<Product> findAllByPriceLessThanEqual(int maxPrice) {
+        return productRepository.findAllByPriceLessThanEqual(maxPrice);
+    }
 }

@@ -15,9 +15,13 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll(@RequestParam (defaultValue = "0") int minPrice, @RequestParam (defaultValue = "0") int maxPrice){
+    public List<Product> findAll(@RequestParam (name = "min_price", defaultValue = "0") int minPrice,
+                                 @RequestParam (name = "max_price", defaultValue = "0") int maxPrice){
         if(minPrice == 0 && maxPrice == 0) {
             return productService.findAll();
+        }
+        if(minPrice == 0 && maxPrice !=0){
+            return productService.findAllByPriceLessThanEqual(maxPrice);
         }
         return productService.findAllByPrice(minPrice, maxPrice);
     }
