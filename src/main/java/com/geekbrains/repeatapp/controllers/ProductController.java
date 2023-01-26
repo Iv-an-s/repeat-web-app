@@ -1,5 +1,6 @@
 package com.geekbrains.repeatapp.controllers;
 
+import com.geekbrains.repeatapp.dtos.ProductDto;
 import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product findById(@PathVariable Long id){
-        return productService.findById(id).get();
+    public ProductDto findById(@PathVariable Long id){
+        return new ProductDto(productService.findById(id).get());
     }
 
 }
