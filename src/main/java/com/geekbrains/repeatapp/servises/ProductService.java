@@ -4,6 +4,7 @@ import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,5 +31,17 @@ public class ProductService {
 
     public List<Product> findAllByPriceLessThanEqual(int maxPrice) {
         return productRepository.findAllByPriceLessThanEqual(maxPrice);
+    }
+
+    public Product save(Product product){
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.delete(productRepository.findById(id).get());
+    }
+
+    public List<Product> findAllByPriceGreaterThanEqual(int minPrice) {
+        return productRepository.findAllByPriceGreaterThanEqual(minPrice);
     }
 }
