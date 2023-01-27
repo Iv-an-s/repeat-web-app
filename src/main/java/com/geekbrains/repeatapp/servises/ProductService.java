@@ -2,6 +2,8 @@ package com.geekbrains.repeatapp.servises;
 
 import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -17,8 +19,8 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> findAll(){
-        return productRepository.findAll();
+    public Page<Product> findAll(int pageIndex, int pageSize){
+        return productRepository.findAll(PageRequest.of(pageIndex, pageSize));
     }
 
     public Optional<Product> findById(Long id){

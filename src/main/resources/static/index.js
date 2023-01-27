@@ -1,16 +1,32 @@
-angular.module('frontapp', []).controller('indexController', function ($scope, $http) {
-    $http.get('http://localhost:8189/app/students/json/1')
-        .then(function (response){
-            $scope.student = response.data;
-        })
+angular.module('market-front', []).controller('indexController', function ($scope, $http) {
+    const contextPath = 'http://localhost:8189/market/'
 
-        $scope.counter = 0;
+//    var loadProducts = function(){ - можно присвоить функцию обычной переменной, и вызывать ее здесь по имени,
+// если в html она не нужна. Используем для вспомагательных функций, чтобы не захламлять $scope
+    $scope.loadProducts = function(){
+        $http.get(contextPath + 'products')
+            .then(function (response){
+                console.log(response)
+                $scope.productsPage = response.data;
+            });
+    };
 
-        $scope.btnPlusClick = function(){
-            $scope.counter +=1;
-        }
+    $scope.showInfo = function (product){
+        alert(product.title);
+    }
 
-        $scope.btnMinusClick = function(){
-            $scope.counter -=1;
-        }
+
+    // $scope.wrongRequest = function () {
+    // WRONG:
+    // $http.get(contextPath + 'products/update/1');
+    // reload(); - вызов обновления страницы произойдет раньше чем ответит бекэнд. Нужно применять колбеки [...then(function(response){...]
+
+    // CORRECT
+    // $http.get(contextPath + 'products/update/1')
+    //     .then(function (response) {
+    //         reload();
+    //     });
+    // }
+
+    $scope.loadProducts();
 });
