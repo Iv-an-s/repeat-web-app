@@ -29,6 +29,16 @@ angular.module('market-front', []).controller('indexController', function ($scop
         alert(product.title);
     }
 
+    $scope.createNewProduct = function(){
+        $http.post(contextPath + 'products', $scope.new_product)
+            .then(function successCallback(response){
+                $scope.loadProducts();
+                $scope.new_product = null;
+                }, function failureCallback(response){
+                alert(response.data.message);
+            });
+    }
+
 
     // $scope.wrongRequest = function () {
     // WRONG:

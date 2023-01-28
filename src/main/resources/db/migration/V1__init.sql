@@ -17,16 +17,5 @@ values ('Bread', 25, 1),
         ('Milk', 80, 1),
         ('Cheese', 450, 1),
         ('Cheese', 550, 1),
-        ('Cheese', 650, 1),
-        ('Cheese', 750, 1),
-        ('Cheese', 850, 1),
-        ('Cheese', 950, 1),
-        ('Cheese', 1050, 1),
-        ('Cheese', 1150, 1),
-        ('Cheese', 1250, 1),
-        ('Cheese', 1350, 1),
-        ('Cheese', 1450, 1),
-        ('Cheese', 1450, 1),
-        ('Cheese', 1450, 1),
-        ('Cheese', 1450, 1),
-        ('Cheese', 1550, 1);
+        ('Cheese', 650, 1);
+

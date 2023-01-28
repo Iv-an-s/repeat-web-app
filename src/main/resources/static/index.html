@@ -17,10 +17,10 @@
     <table class="table">
         <thead>
         <tr>
-            <td>id</td>
-            <td>title</td>
-            <td>price</td>
-            <td>actions</td>
+            <td>Id</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -29,12 +29,22 @@
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-primary" ng-click="showInfo(p)">info</button>
+                <button class="btn btn-primary" ng-click="showInfo(p)">О продукте</button>
             </td>
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-primary" ng-click="loadProducts()">refresh</button>
+    <button class="btn btn-primary" ng-click="loadProducts()">Обновить</button>
+
+    <p></p>
+    <h3>Добавить новый продукт</h3>
+    <form novalidate ng-submit="createNewProduct()">
+        <input class="form-control" type="text" placeholder="Название" ng-model="new_product.title">
+        <input class="form-control" type="number" placeholder="Цена" ng-model="new_product.price">
+        <input class="form-control" type="text" placeholder="Категория" ng-model="new_product.categoryTitle">
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+
 </div>
 </body>
 </html>
