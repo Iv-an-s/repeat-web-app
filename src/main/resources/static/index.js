@@ -3,13 +3,27 @@ angular.module('market-front', []).controller('indexController', function ($scop
 
 //    var loadProducts = function(){ - можно присвоить функцию обычной переменной, и вызывать ее здесь по имени,
 // если в html она не нужна. Используем для вспомагательных функций, чтобы не захламлять $scope
-    $scope.loadProducts = function(){
-        $http.get(contextPath + 'products')
-            .then(function (response){
-                console.log(response)
-                $scope.productsPage = response.data;
-            });
+
+    $scope.loadProducts = function(pageIndex = 1){  // запись означает, что если мы не подали аргумент в pageIndex, по дефолту его значение будет равно 1
+        $http({
+            url: contextPath + 'products',
+            method: 'GET',
+            params: {
+                p: pageIndex
+            }
+        }).then(function (response){
+            console.log(response)
+            $scope.productsPage = response.data;
+        });
     };
+
+//    $scope.loadProducts = function(){
+//        $http.get(contextPath + 'products')
+//            .then(function (response){
+//                console.log(response)
+//                $scope.productsPage = response.data;
+//            });
+//    };
 
     $scope.showInfo = function (product){
         alert(product.title);
@@ -28,5 +42,5 @@ angular.module('market-front', []).controller('indexController', function ($scop
     //     });
     // }
 
-    $scope.loadProducts();
+    $scope.loadProducts(2);
 });

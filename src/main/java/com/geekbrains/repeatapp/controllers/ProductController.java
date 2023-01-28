@@ -2,15 +2,20 @@ package com.geekbrains.repeatapp.controllers;
 
 import com.geekbrains.repeatapp.dtos.ProductDto;
 import com.geekbrains.repeatapp.entities.Product;
+import com.geekbrains.repeatapp.exceptions.MarketError;
 import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
     private CategoryService categoryService;
@@ -20,7 +25,7 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/products")
+    @GetMapping
     public Page<ProductDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
         if (pageIndex < 1) {
             pageIndex = 1;
@@ -43,12 +48,16 @@ public class ProductController {
 //        return productService.findAllByPrice(minPrice, maxPrice).stream().map(s -> new ProductDto(s)).collect(Collectors.toList());
 //    }
 
-    @GetMapping("/products/{id}")
-    public ProductDto findById(@PathVariable Long id) {
-        return new ProductDto(productService.findById(id).get());
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        Optional<Product> product = productService.findById(id);
+        if (!product.isPresent()){
+            return new ResponseEntity<>(new MarketError("product with id:"+ id + " is not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new ProductDto(product.get()), HttpStatus.OK);
     }
 
-    @PostMapping("/products")
+    @PostMapping
     public ProductDto save(@RequestBody ProductDto productDto) {
         Product product = new Product();
         product.setPrice(productDto.getPrice());
@@ -57,7 +66,7 @@ public class ProductController {
         return new ProductDto(productService.save(product));
     }
 
-    @GetMapping("/products/delete/{id}")
+    @GetMapping("/delete/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
