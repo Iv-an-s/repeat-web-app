@@ -1,8 +1,10 @@
 package com.geekbrains.repeatapp.controllers;
 
 import com.geekbrains.repeatapp.dtos.ProductDto;
+import com.geekbrains.repeatapp.entities.Category;
 import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.exceptions.MarketError;
+import com.geekbrains.repeatapp.exceptions.ResourceNotFoundException;
 import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
@@ -49,20 +51,39 @@ public class ProductController {
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<Product> product = productService.findById(id);
-        if (!product.isPresent()){
-            return new ResponseEntity<>(new MarketError("product with id:"+ id + " is not found"), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new ProductDto(product.get()), HttpStatus.OK);
+    public ProductDto findById(@PathVariable Long id){
+        Product product = productService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product with id= " + id + " not found"));
+        return new ProductDto(product);
     }
+
+    /**
+     * Метод с данной аннотацией (@ExceptionHandler) будет перехватывать исключения типа ResourceNotFoundException,
+     * возникающие в этом контроллере, в любом из методов.
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler
+    public ResponseEntity<?> catchResourceNotFoundException(ResourceNotFoundException e){
+        return new ResponseEntity<>(new MarketError(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> findById(@PathVariable Long id) {
+//        Optional<Product> product = productService.findById(id);
+//        if (!product.isPresent()){
+//            return new ResponseEntity<>(new MarketError("product with id:"+ id + " is not found"), HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(new ProductDto(product.get()), HttpStatus.OK);
+//    }
 
     @PostMapping
     public ProductDto save(@RequestBody ProductDto productDto) {
         Product product = new Product();
         product.setPrice(productDto.getPrice());
         product.setTitle(productDto.getTitle());
-        product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).get());
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(()-> new ResourceNotFoundException("Category with title = " + productDto.getCategoryTitle() + " not found"));
+        product.setCategory(category);
         return new ProductDto(productService.save(product));
     }
 
