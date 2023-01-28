@@ -56,17 +56,7 @@ public class ProductController {
         return new ProductDto(product);
     }
 
-    /**
-     * Метод с данной аннотацией (@ExceptionHandler) будет перехватывать исключения типа ResourceNotFoundException,
-     * возникающие в этом контроллере, в любом из методов.
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler
-    public ResponseEntity<?> catchResourceNotFoundException(ResourceNotFoundException e){
-        return new ResponseEntity<>(new MarketError(e.getMessage()), HttpStatus.NOT_FOUND);
-    }
+
 
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> findById(@PathVariable Long id) {
