@@ -56,6 +56,11 @@ public class ProductController {
         return new ProductDto(product);
     }
 
+    @DeleteMapping("/{id}")
+    public ProductDto deleteById(@PathVariable Long id){
+        return new ProductDto(productService.deleteById(id));
+    }
+
 
 
 //    @GetMapping("/{id}")
@@ -77,8 +82,13 @@ public class ProductController {
         return new ProductDto(productService.save(product));
     }
 
-    @GetMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    @PutMapping
+    public void updateProduct(@RequestBody ProductDto productDto) {
+        productService.updateProduct(productDto);
     }
+
+//    @GetMapping("/delete/{id}")
+//    public ProductDto deleteProduct(@PathVariable Long id) {
+//        return new ProductDto(productService.deleteById(id));
+//    }
 }
