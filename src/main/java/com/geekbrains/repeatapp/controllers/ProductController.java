@@ -3,18 +3,11 @@ package com.geekbrains.repeatapp.controllers;
 import com.geekbrains.repeatapp.dtos.ProductDto;
 import com.geekbrains.repeatapp.entities.Category;
 import com.geekbrains.repeatapp.entities.Product;
-import com.geekbrains.repeatapp.exceptions.MarketError;
 import com.geekbrains.repeatapp.exceptions.ResourceNotFoundException;
 import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -51,16 +44,15 @@ public class ProductController {
 //    }
 
     @GetMapping("/{id}")
-    public ProductDto findById(@PathVariable Long id){
-        Product product = productService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product with id= " + id + " not found"));
+    public ProductDto findById(@PathVariable Long id) {
+        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id= " + id + " not found"));
         return new ProductDto(product);
     }
 
     @DeleteMapping("/{id}")
-    public ProductDto deleteById(@PathVariable Long id){
+    public ProductDto deleteById(@PathVariable Long id) {
         return new ProductDto(productService.deleteById(id));
     }
-
 
 
 //    @GetMapping("/{id}")
@@ -77,7 +69,7 @@ public class ProductController {
         Product product = new Product();
         product.setPrice(productDto.getPrice());
         product.setTitle(productDto.getTitle());
-        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(()-> new ResourceNotFoundException("Category with title = " + productDto.getCategoryTitle() + " not found"));
+        Category category = categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category with title = " + productDto.getCategoryTitle() + " not found"));
         product.setCategory(category);
         return new ProductDto(productService.save(product));
     }
