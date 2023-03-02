@@ -4,10 +4,15 @@ import com.geekbrains.repeatapp.dtos.ProductDto;
 import com.geekbrains.repeatapp.entities.Category;
 import com.geekbrains.repeatapp.entities.Product;
 import com.geekbrains.repeatapp.exceptions.ResourceNotFoundException;
+import com.geekbrains.repeatapp.exceptions.DataValidationException;
 import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -65,7 +70,12 @@ public class ProductController {
 //    }
 
     @PostMapping
-    public ProductDto save(@RequestBody ProductDto productDto) {
+    public ProductDto save(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
+        // аргумент BindingResult обязательно должен идти сразу за проверяемым аргументом. Между этими аргументами ничего не должно быть.
+        if(bindingResult.hasErrors()){
+           throw new DataValidationException(bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList()));
+        }
+
         Product product = new Product();
         product.setPrice(productDto.getPrice());
         product.setTitle(productDto.getTitle());

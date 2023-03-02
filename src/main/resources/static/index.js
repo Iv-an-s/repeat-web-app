@@ -1,6 +1,6 @@
 (function (){
     angular
-        .module('market-front', ['ng-route'])
+        .module('market-front', ['ngRoute'])
         .config(config)
         .run(run);
 
@@ -13,6 +13,14 @@
         .when('/store', {
             templateUrl: 'store/store.html',
             controller: 'storeController'
+        })
+        .when('/create_product', {
+            templateUrl: 'create_product/create_product.html',
+            controller: 'createProductController'
+        })
+        .when('/edit_product/:productId', {
+            templateUrl: 'edit_product/edit_product.html',
+            controller: 'editProductController'
         })
         .otherwise({
             redirectTo: '/'
