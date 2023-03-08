@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
     /**
      * Метод с данной аннотацией (@ExceptionHandler), если разместить в каком-либо контроллере, будет перехватывать
-     * исключения указанного типа (например ResourceNotFoundException), возникающие в данном контроллере, в любом из методов.
-     * Если хотим чтобы перехват данного исключения производился во всех контроллерах, размещаем его здесь, в бине
+     * исключения указанного типа (например ResourceNotFoundException), возникающие в данном контроллере, в любом из его методов.
+     * Если хотим чтобы перехват данного исключения производился во всех бинах, размещаем его здесь, в бине
      * с аннотацией @ControllerAdvice.
      *
      * @param e
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> catchDataValidationException(DataValidationException e){
+    public ResponseEntity<?> catchValidationException(DataValidationException e){
         return new ResponseEntity<>(new MarketError(e.getMessages()), HttpStatus.BAD_REQUEST);
     }
 
