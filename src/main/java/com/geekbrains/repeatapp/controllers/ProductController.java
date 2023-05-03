@@ -9,6 +9,7 @@ import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +74,8 @@ public class ProductController {
     public ProductDto save(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
         // аргумент BindingResult обязательно должен идти сразу за проверяемым аргументом. Между этими аргументами ничего не должно быть.
         if(bindingResult.hasErrors()){
-           throw new DataValidationException(bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList()));
+//           throw new DataValidationException(bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList()));
+            throw new DataValidationException(bindingResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList()));
         }
 
         Product product = new Product();

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
+//@Profile("!test")
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
@@ -24,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().disable()//отключаем csrf-токены. В Rest'е они не нужны. Будут блокировать все (?)
                 .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll()
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 /* означает, что если попадаем в защищенную область, в MVC нас можно было бы "заредиректить" на какую-нибудь
                 страницу (login-page, показать к-л страницу с предупреждением), но в Rest'e редиректить нас никто не может.
-                Если попытаемся сунуться в защищенную область без токена -                 получим статус код 401 (Unauthorized)
+                Если попытаемся сунуться в защищенную область без токена - получим статус код 401 (Unauthorized)
                  */
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

@@ -9,6 +9,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
 </head>
 
 <body ng-app="market-front">
@@ -23,8 +24,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#!/store">Каталог товаров</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" ng-show="isUserLoggedIn()">
                         <a class="nav-link" href="#!/create_product">(Служебная функция) Создать товар</a>
+                    </li>
+
+                    <li class="nav-item" ng-show="!isUserLoggedIn()">
+                        <form class="align-middle" ng-submit="tryToAuth()">
+                            <div class="input-group input-group-sm" style="...">
+                                <input id="navLoginField" class="form=control" ng-model="user.username" type="text" aria-describedby="inputGroup-sizing-sm" style="...">
+                                <input id="navPasswordField" class="form-control" ng-model="user.password" type="password" aria-describedby="inputGroup-sizing-sm" style="...">
+                                <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm" style="..." type="submit">Войти</button>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
+                        <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
                     </li>
                 </ul>
             </div>
