@@ -61,6 +61,7 @@ public class Cart {
     }
 
     private void recalculate(){
+        totalPrice = 0;
         for (OrderItemDto item : items) {
             totalPrice += item.getPrice();
         }
