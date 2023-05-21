@@ -17,7 +17,9 @@
       <td>{{p.title}}</td>
       <td>{{p.price}}</td>
       <td>
-        <button class="btn btn-primary" ng-click="showInfo(p)">О продукте</button>
+<!--        <button class="btn btn-primary" ng-click="navToEditProductPage(p.id)">О продукте</button>-->
+            <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+
       </td>
       <td>
         <button class="btn btn-primary" ng-click="deleteProduct(p.id)">Удалить</button>

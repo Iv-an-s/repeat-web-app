@@ -22,11 +22,23 @@ public class CartService {
         return cart;
     }
 
-    public void addToCart(Long productId) {
+    public void addItem(Long productId) {
         if (cart.add(productId)){
             return;
         }
         Product product = productService.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Невозможно добавить продукт в корзину. В БД нет такого productId"));
         cart.add(product);
+    }
+
+    public void decrementItem(Long productId){
+        cart.decrement(productId);
+    }
+
+    public void removeItem(Long productId){
+        cart.remove(productId);
+    }
+
+    public void clearCart() {
+        cart.clear();
     }
 }

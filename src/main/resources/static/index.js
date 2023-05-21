@@ -26,6 +26,14 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registerController'
         })
+        .when('/cart', {
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
+        })
+        .when('/order_confirmation', {
+                templateUrl: 'order_confirmation/order_confirmation.html',
+                controller: 'orderConfirmationController'
+        })
         .otherwise({
             redirectTo: '/'
         });
