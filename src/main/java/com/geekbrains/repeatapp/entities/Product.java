@@ -1,6 +1,10 @@
 package com.geekbrains.repeatapp.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
@@ -54,4 +58,12 @@ public class Product {
 
     public Product() {
     }
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime cratedAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
