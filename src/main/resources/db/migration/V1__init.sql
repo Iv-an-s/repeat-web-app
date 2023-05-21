@@ -1,16 +1,23 @@
 create table categories
-(id bigserial primary key, title varchar(255));
+(
+    id bigserial primary key,
+    title varchar(255),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
 --   В postgreSQL нет типа данных bigserial - это bigint + sequence генератор.
 
 insert into categories(title)
-values ('food');
+values ('Food');
 
 create table products
 (
     id bigserial primary key,
     title varchar(255),
     price int,
-    category_id bigint references categories (id)
+    category_id bigint references categories (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 insert into products (title, price, category_id)
 values ('Bread', 25, 1),
@@ -73,4 +80,25 @@ insert into users_roles (user_id, role_id) values
     (1, 1),
     (2, 2)
 ;
+
+create table orders (
+    id bigserial primary key,
+    user_id bigint references users (id),
+    phone varchar(255),
+    address varchar(255),
+    price integer,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
+create table order_items (
+    id bigserial primary key,
+    order_id bigint references orders (id),
+    product_id bigint references products (id),
+    quantity integer,
+    price_per_product integer,
+    price integer,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
 
