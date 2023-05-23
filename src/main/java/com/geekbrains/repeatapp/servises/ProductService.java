@@ -66,4 +66,8 @@ public class ProductService {
     public List<Product> findAllByPriceGreaterThanEqual(int minPrice) {
         return productRepository.findAllByPriceGreaterThanEqual(minPrice);
     }
+
+    public Optional<Product> findByTitle(String title){
+        return productRepository.findByTitle(title);
+    }
 }

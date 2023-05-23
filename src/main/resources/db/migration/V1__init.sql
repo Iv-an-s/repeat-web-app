@@ -102,3 +102,9 @@ create table order_items (
     updated_at timestamp default current_timestamp
 );
 
+insert into orders (user_id, address, phone, price)
+values (1, '1111', '1111', 100);
+
+insert into order_items(order_id, product_id, quantity, price_per_product, price)
+values (1, 1, 4, 25, 100);
+

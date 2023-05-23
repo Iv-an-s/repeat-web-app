@@ -1,5 +1,6 @@
 package com.geekbrains.repeatapp.dtos;
 
+import com.geekbrains.repeatapp.entities.OrderItem;
 import com.geekbrains.repeatapp.entities.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,14 @@ public class OrderItemDto {
         this.quantity = 1;
         this.pricePerProduct = product.getPrice();
         this.price = pricePerProduct;
+    }
+
+    public OrderItemDto(OrderItem orderItem) {
+        this.productId = orderItem.getProduct().getId();
+        this.productTitle = orderItem.getProduct().getTitle();
+        this.quantity = orderItem.getQuantity();
+        this.pricePerProduct = orderItem.getPricePerProduct();
+        this.price = orderItem.getPrice();
     }
 
     public void changeQuantity(int delta){
