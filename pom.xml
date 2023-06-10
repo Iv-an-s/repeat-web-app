@@ -42,6 +42,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<!-- аналог Spring Data, только под кэш Redis'а. Обертка для отправки запросов -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+<!-- библиотека, которая позволяет устанавливать соединение с базой Redis. Нечто вроде драйвера -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>3.6.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>

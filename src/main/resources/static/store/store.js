@@ -1,4 +1,4 @@
-angular.module('market-front').controller('storeController', function ($scope, $http, $location) {
+angular.module('market-front').controller('storeController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market/api/v1/';
     let currentPageIndex = 1;
 
@@ -22,7 +22,7 @@ angular.module('market-front').controller('storeController', function ($scope, $
 
     $scope.addToCart = function(productId){
         $http({
-            url: contextPath + 'cart/add/' + productId,
+            url: contextPath + 'cart/'+ $localStorage.guestCartId + '/add/' + productId,
             method: 'GET',
         }).then(function (response){
             console.log(response)

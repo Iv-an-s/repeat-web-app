@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class OrderService {
     private final ProductService productService;
 
     @Transactional
-    public void createOrder(String username, OrderDetailsDto orderDetailsDto){
-        User user = userService.findByUsername(username).orElseThrow(()-> new ResourceNotFoundException("Не удалось найти пользователя при оформлении заказа c именем: " + username));
-        Cart cart = cartService.getCartForCurrentUser();
+    public void createOrder(Principal principal, OrderDetailsDto orderDetailsDto){
+        User user = userService.findByUsername(principal.getName()).orElseThrow(()-> new ResourceNotFoundException("Не удалось найти пользователя при оформлении заказа c именем: " + principal.getName()));
+        Cart cart = cartService.getCartForCurrentUser(principal, null);
         Order order = new Order();
         order.setUser(user);
         order.setPrice(cart.getTotalPrice());
@@ -45,7 +46,7 @@ public class OrderService {
         order.setPhone(orderDetailsDto.getPhone());
         order.setAddress(orderDetailsDto.getAddress());
         save(order);
-        cartService.clearCart();
+        cartService.clearCart(principal, null);
     }
 
     public void save(Order order){

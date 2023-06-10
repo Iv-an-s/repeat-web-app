@@ -1,9 +1,9 @@
-angular.module('market-front').controller('cartController', function ($scope, $http, $location) {
+angular.module('market-front').controller('cartController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/market/api/v1/';
 
     $scope.loadCart = function(){
         $http({
-            url: contextPath + 'cart',
+            url: contextPath + 'cart/' + $localStorage.guestCartId,
             method: 'GET',
         }).then(function (response){
             $scope.cart = response.data;
@@ -12,7 +12,7 @@ angular.module('market-front').controller('cartController', function ($scope, $h
 
     $scope.incrementItem = function(productId){
         $http({
-            url: contextPath + 'cart/add/' + productId,
+            url: contextPath + 'cart/' + $localStorage.guestCartId + '/add/' + productId,
             method: 'GET',
         }).then(function (response){
             $scope.loadCart();
@@ -21,7 +21,7 @@ angular.module('market-front').controller('cartController', function ($scope, $h
 
     $scope.decrementItem = function(productId){
         $http({
-            url: contextPath + 'cart/decrement/' + productId,
+            url: contextPath + 'cart/' + $localStorage.guestCartId + '/decrement/' + productId,
             method: 'GET',
         }).then(function (response){
             $scope.loadCart();
@@ -30,7 +30,7 @@ angular.module('market-front').controller('cartController', function ($scope, $h
 
     $scope.removeItem = function(productId){
         $http({
-            url: contextPath + 'cart/remove/' + productId,
+            url: contextPath + 'cart/' + $localStorage.guestCartId + '/remove/' + productId,
             method: 'GET',
         }).then(function (response){
             $scope.loadCart();
