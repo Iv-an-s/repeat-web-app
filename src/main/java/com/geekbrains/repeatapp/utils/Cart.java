@@ -13,7 +13,7 @@ public class Cart {
     private List<OrderItemDto> items;
     private int totalPrice;
 
-    public Cart(){
+    public Cart() {
         this.items = new ArrayList<>();
     }
 
@@ -24,9 +24,9 @@ public class Cart {
 //                .ifPresent(i -> i.changeQuantity(1));
 //    }
 
-    public boolean add(Long productId){
+    public boolean add(Long productId) {
         for (OrderItemDto item : items) {
-            if (item.getProductId().equals(productId)){
+            if (item.getProductId().equals(productId)) {
                 item.changeQuantity(1);
                 recalculate();
                 return true;
@@ -35,18 +35,22 @@ public class Cart {
         return false;
     }
 
-    public void add(Product product){
+    public void add(Product product) {
         items.add(new OrderItemDto(product));
         recalculate();
     }
 
-    public void decrement(Long productId){
+    public void decrement(Long productId) {
+        changeQuantity(productId, -1);
+    }
+
+    public void changeQuantity(Long productId, int i) {
         Iterator<OrderItemDto> iterator = items.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             OrderItemDto item = iterator.next();
-            if(item.getProductId().equals(productId)){
-                item.changeQuantity(-1);
-                if (item.getQuantity() <= 0){
+            if (item.getProductId().equals(productId)) {
+                item.changeQuantity(i);
+                if (item.getQuantity() <= 0) {
                     iterator.remove();
                 }
                 recalculate();
@@ -55,38 +59,39 @@ public class Cart {
         }
     }
 
-    public void remove(Long productId){
+    public void remove(Long productId) {
         items.removeIf(i -> i.getProductId().equals(productId));
         recalculate();
     }
 
-    private void recalculate(){
+    private void recalculate() {
         totalPrice = 0;
         for (OrderItemDto item : items) {
             totalPrice += item.getPrice();
         }
     }
 
-    public void clear(){
+    public void clear() {
         items.clear();
         totalPrice = 0;
     }
 
     /**
      * Основная корзина - та, у которой вызываем метод merge()
+     *
      * @param another - корзина, из которой мержим содержимое в основную корзину
      */
-    public void merge(Cart another){
-        for(OrderItemDto anotherItem : another.items){
+    public void merge(Cart another) {
+        for (OrderItemDto anotherItem : another.items) {
             boolean merged = false;
             for (OrderItemDto myItem : this.items) {
-                if (myItem.getProductId().equals(anotherItem.getProductId())){
+                if (myItem.getProductId().equals(anotherItem.getProductId())) {
                     myItem.changeQuantity(anotherItem.getQuantity());
                     merged = true;
                     break;
                 }
             }
-            if (!merged){
+            if (!merged) {
                 items.add(anotherItem);
             }
         }

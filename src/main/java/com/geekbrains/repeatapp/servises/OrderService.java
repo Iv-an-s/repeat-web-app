@@ -28,10 +28,12 @@ public class OrderService {
     @Transactional
     public void createOrder(Principal principal, OrderDetailsDto orderDetailsDto){
         User user = userService.findByUsername(principal.getName()).orElseThrow(()-> new ResourceNotFoundException("Не удалось найти пользователя при оформлении заказа c именем: " + principal.getName()));
-        Cart cart = cartService.getCartForCurrentUser(principal, null);
+        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(user.getUsername()));
         Order order = new Order();
         order.setUser(user);
         order.setPrice(cart.getTotalPrice());
+        order.setAddress(orderDetailsDto.getAddress());
+        order.setPhone(orderDetailsDto.getPhone());
         List<OrderItem> items = new ArrayList<>();
         for (OrderItemDto i : cart.getItems()) {
             OrderItem orderItem = new OrderItem();
@@ -43,10 +45,9 @@ public class OrderService {
             items.add(orderItem);
         }
         order.setItems(items);
-        order.setPhone(orderDetailsDto.getPhone());
-        order.setAddress(orderDetailsDto.getAddress());
         save(order);
-        cartService.clearCart(principal, null);
+        cart.clear();
+        cartService.updateCart(cartService.getCartUuidFromSuffix(user.getUsername()), cart);
     }
 
     public void save(Order order){

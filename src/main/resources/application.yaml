@@ -22,6 +22,10 @@ spring:
 jwt:
   secret: sdkjhalfkgsdflgkj;lkj
   lifetime: 36000000
+utils:
+  cart:
+    prefix: WEB_MARKET_
+
 
 
 
