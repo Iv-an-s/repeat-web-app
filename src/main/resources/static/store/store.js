@@ -12,6 +12,12 @@ angular.module('market-front').controller('storeController', function ($scope, $
             method: 'GET',
             params: {
                 p: pageIndex
+// если объект filter в $scope существует, то мы отправим на бэкэнд поле title. Если оно пустое - то отправим null
+// то же самое для min_price и для max_price
+// Этот тернарный оператор защищает от ошибки при запуске, когда объекта filter не существует.
+                title: $scope.filter ? $scope.filter.title : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null
             }
         }).then(function (response){
             console.log(response)

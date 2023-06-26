@@ -1,52 +1,85 @@
 <div>
-  <h1>Marketplace</h1>
-  <table class="table">
-    <thead>
-    <tr>
-      <td>Id</td>
-      <td>Название</td>
-      <td>Цена</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="p in productsPage.content">
-      <td>{{p.id}}</td>
-      <td>{{p.title}}</td>
-      <td>{{p.price}}</td>
-      <td>
-<!--        <button class="btn btn-primary" ng-click="navToEditProductPage(p.id)">О продукте</button>-->
-            <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+    <p></p>
+    <h1>Каталог товаров</h1>
+    <p></p>
+    <div class="row g-2">
+        <div class="col-6 col-md-2">
+            <form novalidate ng-submit="loadProducts()">
+                <div class="form-floating input-group-sn">
+                    <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title">
+                    <label for="filterTitle">Название</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sn">
+                    <input type="number" class="form-control" id="filterMinPrice" placeholder=""
+                           ng-model="filter.min_price">
+                    <label for="filterMinPrice">Минимальная цена</label>
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sn">
+                    <input type="number" class="form-control" id="filterMaxPrice" placeholder=""
+                           ng-model="filter.max_price">
+                    <label for="filterMinPrice">Максимальная цена</label>
+                </div>
+                <p></p>
+                <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Применить</button>
+            </form>
+        </div>
+        <div class="col-sn-6 col-md-10">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Название</td>
+                    <td>Цена</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="p in productsPage.content">
+                    <td>{{p.id}}</td>
+                    <td>{{p.title}}</td>
+                    <td>{{p.price}}</td>
+                    <td>
+                        <!--        <button class="btn btn-primary" ng-click="navToEditProductPage(p.id)">О продукте</button>-->
+                        <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
 
-      </td>
-      <td>
-        <button class="btn btn-primary" ng-click="deleteProduct(p.id)">Удалить</button>
-      </td>
-      <td>
-<!--        <button class="btn btn-primary" ng-click="prepareProductForUpdate(p.id)">Изменить</button>-->
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <button class="btn btn-primary" ng-click="loadProducts()">Обновить</button>
-  <p></p>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" ng-click="deleteProduct(p.id)">Удалить</button>
+                    </td>
+                    <td>
+                        <!--        <button class="btn btn-primary" ng-click="prepareProductForUpdate(p.id)">Изменить</button>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" ng-click="loadProducts()">Обновить</button>
+            <p></p>
 
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li class="page-item" ng-show = "productsPage.number > 0">
-        <button class="page-link" ng-click="loadProducts(0)">В начало</button>
-      </li>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item" ng-show="productsPage.number > 0">
+                        <button class="page-link" ng-click="loadProducts(0)">В начало</button>
+                    </li>
 
-      <li class="page-item" ng-repeat="pageIndex in paginationArray">
-        <button ng-show="productsPage.number != pageIndex -1" class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
-        <button ng-show="productsPage.number == pageIndex -1" style="font-weight: bold;" class="page-link" ng-clik="loadProducts(pageIndex)">{{pageIndex}}</button>
-      </li>
+                    <li class="page-item" ng-repeat="pageIndex in paginationArray">
+                        <button ng-show="productsPage.number != pageIndex -1" class="page-link"
+                                ng-click="loadProducts(pageIndex)">{{pageIndex}}
+                        </button>
+                        <button ng-show="productsPage.number == pageIndex -1" style="font-weight: bold;"
+                                class="page-link"
+                                ng-clik="loadProducts(pageIndex)">{{pageIndex}}
+                        </button>
+                    </li>
 
-      <li class="page-item" ng-show = "productsPage.number < productsPage.totalPages -1">
-        <button class="page-link" ng-click="loadProducts(productsPage.totalPages)">В конец</button>
-      </li>
-    </ul>
-  </nav>
+                    <li class="page-item" ng-show="productsPage.number < productsPage.totalPages -1">
+                        <button class="page-link" ng-click="loadProducts(productsPage.totalPages)">В конец</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
