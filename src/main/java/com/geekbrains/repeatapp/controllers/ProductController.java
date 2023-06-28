@@ -8,6 +8,7 @@ import com.geekbrains.repeatapp.exceptions.DataValidationException;
 import com.geekbrains.repeatapp.servises.CategoryService;
 import com.geekbrains.repeatapp.servises.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -27,11 +28,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<ProductDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+    public Page<ProductDto> findAll(
+            @RequestParam(defaultValue = "1", name = "p") int pageIndex,
+            @RequestParam MultiValueMap<String, String> params) {
         if (pageIndex < 1) {
             pageIndex = 1;
         }
-        return productService.findAll(pageIndex - 1, 10).map(ProductDto::new);
+        return productService.findAll(pageIndex - 1, 10, params).map(ProductDto::new);
     }
 
 //    @GetMapping("/products")
